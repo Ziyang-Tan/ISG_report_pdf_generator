@@ -95,15 +95,26 @@ class _ReportGeneratorScreenState extends State<ReportGeneratorScreen> {
 
       // Load images
       final Map<String, pw.MemoryImage> images = {};
-      final histogramData = await _dataLoader.loadImageData(reportData.plots.histogram);
-      final scatterData = await _dataLoader.loadImageData(reportData.plots.scatter);
+
+      // Load all images
+      final timelineData = await _dataLoader.loadImageData('ISG_timeline.png');
+      final scatterData = await _dataLoader.loadImageData('ISG_scatter.png');
+      final nfkbTimelineData = await _dataLoader.loadImageData('NFkb_timeline.png');
+      final nfkbScatterData = await _dataLoader.loadImageData('NFkb_scatter.png');
+      final ifngTimelineData = await _dataLoader.loadImageData('IFNg_timeline.png');
+      final ifngScatterData = await _dataLoader.loadImageData('IFNg_scatter.png');
 
       // Debug print
-      print('Histogram image size: ${histogramData.length} bytes');
+      print('Timeline image size: ${timelineData.length} bytes');
       print('Scatter image size: ${scatterData.length} bytes');
 
-      images[reportData.plots.histogram] = pw.MemoryImage(histogramData);
-      images[reportData.plots.scatter] = pw.MemoryImage(scatterData);
+      // Store images with their filenames as keys
+      images['ISG_timeline.png'] = pw.MemoryImage(timelineData);
+      images['ISG_scatter.png'] = pw.MemoryImage(scatterData);
+      images['NFkb_timeline.png'] = pw.MemoryImage(nfkbTimelineData);
+      images['NFkb_scatter.png'] = pw.MemoryImage(nfkbScatterData);
+      images['IFNg_timeline.png'] = pw.MemoryImage(ifngTimelineData);
+      images['IFNg_scatter.png'] = pw.MemoryImage(ifngScatterData);
 
       setState(() {
         _statusMessage = 'Generating PDF...';

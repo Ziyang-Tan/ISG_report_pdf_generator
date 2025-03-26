@@ -4,20 +4,40 @@ part 'report_data.g.dart';
 
 @JsonSerializable()
 class ReportData {
-  final Metadata metadata;
+  final Metadata? metadata;
+  
+  @JsonKey(name: 'patient_info')
+  final PatientInfo? patientInfo;
+  
+  @JsonKey(name: 'sample_info')
+  final SampleInfo? sampleInfo;
+  
+  @JsonKey(name: 'ISG_score')
+  final List<ISGScore>? isgScore;
+  
+  @JsonKey(name: 'NFkb_score')
+  final List<NFkbScore>? nfkbScore;
+  
+  @JsonKey(name: 'IFNg_score')
+  final List<IFNgScore>? ifngScore;
   
   @JsonKey(name: 'summary_statistics')
   final List<SummaryStatistic>? summaryStatistics;
   
-  final Plots plots;
+  final Plots? plots;
   
   @JsonKey(name: 'raw_data')
   final List<RawData>? rawData;
 
   ReportData({
-    required this.metadata,
+    this.metadata,
+    this.patientInfo,
+    this.sampleInfo,
+    this.isgScore,
+    this.nfkbScore,
+    this.ifngScore,
     this.summaryStatistics = const [],
-    required this.plots,
+    this.plots,
     this.rawData = const [],
   });
 
@@ -108,4 +128,141 @@ class RawData {
   factory RawData.fromJson(Map<String, dynamic> json) =>
       _$RawDataFromJson(json);
   Map<String, dynamic> toJson() => _$RawDataToJson(this);
+}
+
+@JsonSerializable()
+class PatientInfo {
+  @JsonKey(name: 'Patient_ID')
+  final String patientId;
+  
+  @JsonKey(name: 'personal_number')
+  final String personalNumber;
+  
+  @JsonKey(name: 'Contact')
+  final String contact;
+
+  PatientInfo({
+    required this.patientId,
+    required this.personalNumber,
+    required this.contact,
+  });
+
+  factory PatientInfo.fromJson(Map<String, dynamic> json) =>
+      _$PatientInfoFromJson(json);
+  Map<String, dynamic> toJson() => _$PatientInfoToJson(this);
+}
+
+@JsonSerializable()
+class SampleInfo {
+  @JsonKey(name: 'Patient_ID')
+  final String patientId;
+  
+  @JsonKey(name: 'latest_Sample_ID')
+  final String latestSampleId;
+  
+  @JsonKey(name: 'latest_visit')
+  final String latestVisit;
+  
+  @JsonKey(name: 'referring_physician')
+  final String referringPhysician;
+  
+  @JsonKey(name: 'Sample_collection_location')
+  final String sampleCollectionLocation;
+  
+  @JsonKey(name: 'date_of_sampling')
+  final String dateOfSampling;
+
+  SampleInfo({
+    required this.patientId,
+    required this.latestSampleId,
+    required this.latestVisit,
+    required this.referringPhysician,
+    required this.sampleCollectionLocation,
+    required this.dateOfSampling,
+  });
+
+  factory SampleInfo.fromJson(Map<String, dynamic> json) =>
+      _$SampleInfoFromJson(json);
+  Map<String, dynamic> toJson() => _$SampleInfoToJson(this);
+}
+
+@JsonSerializable()
+class ISGScore {
+  @JsonKey(name: '_row')
+  final String rowName;
+  
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  final Map<String, dynamic> data;
+  
+  ISGScore({
+    required this.rowName,
+    Map<String, dynamic>? data,
+  }) : data = data ?? {};
+  
+  factory ISGScore.fromJson(Map<String, dynamic> json) {
+    final rowName = json['_row'] as String;
+    final data = Map<String, dynamic>.from(json);
+    return ISGScore(rowName: rowName, data: data);
+  }
+  
+  Map<String, dynamic> toJson() {
+    final result = <String, dynamic>{};
+    result.addAll(data);
+    result['_row'] = rowName;
+    return result;
+  }
+}
+
+@JsonSerializable()
+class NFkbScore {
+  @JsonKey(name: '_row')
+  final String rowName;
+  
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  final Map<String, dynamic> data;
+  
+  NFkbScore({
+    required this.rowName,
+    Map<String, dynamic>? data,
+  }) : data = data ?? {};
+  
+  factory NFkbScore.fromJson(Map<String, dynamic> json) {
+    final rowName = json['_row'] as String;
+    final data = Map<String, dynamic>.from(json);
+    return NFkbScore(rowName: rowName, data: data);
+  }
+  
+  Map<String, dynamic> toJson() {
+    final result = <String, dynamic>{};
+    result.addAll(data);
+    result['_row'] = rowName;
+    return result;
+  }
+}
+
+@JsonSerializable()
+class IFNgScore {
+  @JsonKey(name: '_row')
+  final String rowName;
+  
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  final Map<String, dynamic> data;
+  
+  IFNgScore({
+    required this.rowName,
+    Map<String, dynamic>? data,
+  }) : data = data ?? {};
+  
+  factory IFNgScore.fromJson(Map<String, dynamic> json) {
+    final rowName = json['_row'] as String;
+    final data = Map<String, dynamic>.from(json);
+    return IFNgScore(rowName: rowName, data: data);
+  }
+  
+  Map<String, dynamic> toJson() {
+    final result = <String, dynamic>{};
+    result.addAll(data);
+    result['_row'] = rowName;
+    return result;
+  }
 }

@@ -14,8 +14,6 @@ class ChartWidget {
     
     return pw.Center(
       child: pw.Container(
-        height: 250,  // Fixed height
-        width: 400,   // Fixed width
         child: pw.Image(image, fit: pw.BoxFit.contain),
       ),
     );

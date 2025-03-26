@@ -71,9 +71,9 @@ flutter:
   #   - images/a_dot_ham.jpeg
   assets:
     - assets/data/
-    - assets/data/analysis_results.json
-    - assets/data/histogram.png
-    - assets/data/scatter.png
+    - assets/data/ISG_timeline.png
+    - assets/data/ISG_scatter.png
+    - assets/data/ISG_analysis_report.json
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

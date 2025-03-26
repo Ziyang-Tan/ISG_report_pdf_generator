@@ -7,24 +7,31 @@ class DataLoader {
   Future<ReportData> loadReportData() async {
     try {
       // Load JSON data from assets
-      final String jsonString = await rootBundle.loadString('assets/data/analysis_results.json');
-      print('Full JSON content:');
-      print(jsonString);
+      final String jsonString = await rootBundle.loadString('assets/data/ISG_analysis_report.json');
       final Map<String, dynamic> jsonData = json.decode(jsonString);
       
-      // Debug print
-      print('Summary statistics data: ${jsonData['summaryStatistics']}');
-      
-      // Print the structure of the parsed JSON
-      print('JSON structure:');
-      jsonData.forEach((key, value) {
-        print('$key: ${value.runtimeType}');
-      });
+      // Ensure minimal structure exists
+      if (!jsonData.containsKey('metadata')) {
+        jsonData['metadata'] = {
+          "title": "ISG Analysis Report",
+          "date": DateTime.now().toString().substring(0, 10),
+          "author": "Flutter Report Generator"
+        };
+      }
       
       return ReportData.fromJson(jsonData);
     } catch (e) {
       print('Error loading report data: $e');
-      rethrow;
+      
+      // Return default data on error
+      return ReportData(
+        metadata: Metadata(
+          title: "ISG Analysis Report",
+          date: DateTime.now().toString().substring(0, 10),
+          author: "Flutter Report Generator"
+        ),
+        plots: Plots(histogram: "histogram.png", scatter: "scatter.png")
+      );
     }
   }
 
